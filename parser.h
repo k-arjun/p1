@@ -55,14 +55,33 @@ class parser
     bool isInt(string s);
     bool isString(string s);
     void preOrder(treeNode *node, int dots);
+    void delNodes(treeNode *node); //helper function for the destructor
     
     // PUBLIC FUNCTIONS
     public:
     void run(const string &filename);
     void printAST();
     
+    ~parser();
+    
 };
 
+parser::~parser()
+{
+    treeNode *root;
+    root = treeStack.top();
+    delNodes(root);
+}
+
+void parser::delNodes(treeNode *node)
+{
+    if(node)
+    {
+        delNodes(node->child);
+        delNodes(node->sibling);
+        delete(node);
+    }
+}
 void parser::run(const string &filename)
 {
     tl.init(filename);
