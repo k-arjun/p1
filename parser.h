@@ -18,7 +18,8 @@ class parser
     string NT; //keeps the next token
     tokenList tl;
     stack<treeNode *> treeStack;
-    bool endReads();
+    //stack<treeNode *> standardStack;
+    
     // PRIVATE FUNCTIONS
     
     // RPALs Phrase Structure Grammar:
@@ -48,6 +49,8 @@ class parser
     
     void buildTree(string node, int pops);
     void readToken(string readTok);
+    //void standardize(); //makes a standard tree from the AST
+    //void stdTree(treeNode *node); //helper function for the standardize function
     bool isId(); //Returns true is current val of NT is an Identifier
     bool isInt(); //Returns true is current val of NT is an Integer
     bool isString();
@@ -56,22 +59,23 @@ class parser
     bool isString(string s);
     void preOrder(treeNode *node, int dots);
     void delNodes(treeNode *node); //helper function for the destructor
+    bool endReads();
     
     // PUBLIC FUNCTIONS
     public:
     void run(const string &filename);
     void printAST();
-    
-    ~parser();
+    treeNode* returnTop();
+    //~parser();
     
 };
 
-parser::~parser()
-{
-    treeNode *root;
-    root = treeStack.top();
-    delNodes(root);
-}
+//~ parser::~parser()
+//~ {
+    //~ treeNode *root;
+    //~ root = treeStack.top();
+    //~ delNodes(root);
+//~ }
 
 void parser::delNodes(treeNode *node)
 {
@@ -82,12 +86,19 @@ void parser::delNodes(treeNode *node)
         delete(node);
     }
 }
+
+treeNode* parser::returnTop()
+{
+    treeNode *root = treeStack.top();
+    return root;
+}
+
 void parser::run(const string &filename)
 {
     tl.init(filename);
     NT = tl.getCurTokenVal();
     proc_E();
-    printAST();
+    //printAST(); //dont need it right now.
 }
 
 void parser::printAST()
