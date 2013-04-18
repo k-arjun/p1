@@ -27,6 +27,7 @@ class stdTree
     //Public Functions
     public:
     void run(const string &filename);
+    treeNode* getRoot();
     
     //Private Functions
     private:
@@ -39,6 +40,11 @@ class stdTree
     parser p;
     treeNode *stdRoot;
 };
+
+treeNode* stdTree::getRoot()
+{
+	return stdRoot;
+}
 
 void stdTree::preOrder(treeNode *node, int dots)
 {
