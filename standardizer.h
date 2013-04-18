@@ -1,5 +1,5 @@
 #include "parser.h"
-#define DEBUG
+//#define DEBUG
 
 bool isOp(const string &s)
 {
@@ -33,7 +33,6 @@ class stdTree
     private:
     void standardize(treeNode *node);
     void preOrder(treeNode *node, int dots);
-    //~ void stdTau(treeNode *aug, treeNode *gamma, treeNode *e);
     
     //Private Data Members
     private:
@@ -46,7 +45,7 @@ treeNode* stdTree::getRoot()
 	return stdRoot;
 }
 
-void stdTree::preOrder(treeNode *node, int dots)
+void stdTree::preOrder(treeNode *node, int dots) //display the standard tree on console
 {
     if(node)
     {
@@ -105,47 +104,47 @@ void stdTree::standardize(treeNode *node)
         lambda->child = x;
         x->sibling = p;
     }
-    else if(data.compare("tau")==0) //GET BACK
+    else if(data.compare("tau")==0) //Not standardizing this. Can uncomment code in case change of mind.
     {
-        treeNode *gamma = node;
-        gamma->data = "gamma";
-        treeNode *e = gamma->child;
-        
-        int count = 0;
-        stack<treeNode *> eStack;
-        while(e)
-        {
-            eStack.push(e);
-            e = e->sibling;
-            count++;
-        }
-        while( count != 0 )
-        {
-            treeNode *gamma2 = new treeNode();
-            gamma2->data = "gamma";
-            treeNode *aug = new treeNode();
-            aug->data = "aug";
-            gamma->child = gamma2;
-            e = eStack.top();
-            gamma2->sibling = e;
-            e->sibling = 0;
-            eStack.pop();
-            count--;
-            gamma2->child = aug;
-            if(count)
-            {
-                gamma = new treeNode();
-                gamma->data = "gamma";
-                aug->sibling = gamma;
-            }
-            else
-            {
-                treeNode *nil = new treeNode();
-                nil->data = "nil";
-                aug->sibling = nil;
-                break;
-            }
-        }
+        //~ treeNode *gamma = node;
+        //~ gamma->data = "gamma";
+        //~ treeNode *e = gamma->child;
+        //~ 
+        //~ int count = 0;
+        //~ stack<treeNode *> eStack;
+        //~ while(e)
+        //~ {
+            //~ eStack.push(e);
+            //~ e = e->sibling;
+            //~ count++;
+        //~ }
+        //~ while( count != 0 )
+        //~ {
+            //~ treeNode *gamma2 = new treeNode();
+            //~ gamma2->data = "gamma";
+            //~ treeNode *aug = new treeNode();
+            //~ aug->data = "aug";
+            //~ gamma->child = gamma2;
+            //~ e = eStack.top();
+            //~ gamma2->sibling = e;
+            //~ e->sibling = 0;
+            //~ eStack.pop();
+            //~ count--;
+            //~ gamma2->child = aug;
+            //~ if(count)
+            //~ {
+                //~ gamma = new treeNode();
+                //~ gamma->data = "gamma";
+                //~ aug->sibling = gamma;
+            //~ }
+            //~ else
+            //~ {
+                //~ treeNode *nil = new treeNode();
+                //~ nil->data = "nil";
+                //~ aug->sibling = nil;
+                //~ break;
+            //~ }
+        //~ }
     }
     else if(data.compare("->")==0)
     {
@@ -209,14 +208,20 @@ void stdTree::standardize(treeNode *node)
         treeNode *lambda = new treeNode();
         lambda->data = "lambda";
         p->sibling = lambda;
-        lambda->child = temp; 
+        lambda->child = temp;
+        
+        if(! (temp->sibling) )
+        {
+			cerr << "Unable to standardize 'function_form'\n";
+		}
+		
         while(temp->sibling->sibling) //repeat pattern
         {
             treeNode *temp2 = temp->sibling;
             treeNode *lambda_temp = new treeNode();
             lambda_temp->data = "lambda";
-            temp->sibling = lambda; // set temp->sibling to lambda;
-            lambda->child = temp2;
+            temp->sibling = lambda_temp; // set temp->sibling to lambda;
+            lambda_temp->child = temp2;
             temp = temp2; 
         }
 
@@ -251,12 +256,16 @@ void stdTree::standardize(treeNode *node)
         treeNode *x = temp->child;
         treeNode *e = x->sibling;
         
+        x->sibling = 0;
+        
         treeNode *comma = new treeNode();
         comma->data = ",";
         treeNode *tau = new treeNode();
         tau->data = "tau";
         
+        node->child = comma;
         comma->child = x;
+        comma->sibling = tau;
         tau->child = e;
         while(temp->sibling) //append the upcoming x's and e's to the x and e
         {
@@ -270,6 +279,7 @@ void stdTree::standardize(treeNode *node)
             e->sibling = temp->child->sibling;
             e = e->sibling;
         }
+        delete(temp);
     }
     else if(data.compare("@")==0)
     {
@@ -292,40 +302,3 @@ void stdTree::standardize(treeNode *node)
         //do nothing
     }
 }
-
-//~ void stdTree::stdTau(treeNode *aug, treeNode *gamma, treeNode *e)
-//~ {
-    //~ else if(data.compare("tau")==0) //GET BACK
-    //~ {
-        //~ //keep a track of 'n' here or not.
-        //~ node->data = "gamma";
-        //~ treeNode *gamma = node;
-        //~ treeNode *e = node->child;
-        //~ while(e)
-        //~ {
-            //~ treeNode *gamma2 = new treeNode();
-            //~ gamma2->data = "gamma";
-            //~ treeNode *aug = new treeNode();
-            //~ aug->data = "aug";
-            //~ gamma->child = gamma2;
-            //~ gamma2->sibling = e;
-            //~ gamma2->child = aug;
-            //~ if(e->sibling)
-            //~ {
-                //~ temp = e->sibling;
-                //~ e->sibling = 0;
-                //~ e = temp;
-                //~ gamma = new treeNode();
-                //~ gamma->data = "gamma";
-                //~ aug->sibling = gamma;
-            //~ }
-            //~ else
-            //~ {
-                //~ treeNode *nil = new treeNode();
-                //~ nil->data = "nil";
-                //~ aug->sibling = nil;
-                //~ break;
-            //~ }
-        //~ }
-    //~ }
-//~ }
