@@ -256,8 +256,6 @@ void stdTree::standardize(treeNode *node)
         treeNode *x = temp->child;
         treeNode *e = x->sibling;
         
-        x->sibling = 0;
-        
         treeNode *comma = new treeNode();
         comma->data = ",";
         treeNode *tau = new treeNode();
@@ -279,6 +277,7 @@ void stdTree::standardize(treeNode *node)
             e->sibling = temp->child->sibling;
             e = e->sibling;
         }
+        x->sibling = 0;
         delete(temp);
     }
     else if(data.compare("@")==0)
