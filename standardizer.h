@@ -95,6 +95,8 @@ void stdTree::standardize(treeNode *node)
         node->data = "gamma";
         treeNode *p = node->child;
         treeNode *lambda = p->sibling;
+        p->sibling = 0;
+        
         lambda->data = "lambda";
         treeNode *x = lambda->child;
         treeNode *e = x->sibling;
