@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
     if( stSwitch && i==argc-1 )
         cout << "Please enter input program name\n";
     else if(!stSwitch)
-        cout << "Please give -ast switch\n";
+        cout << "Please give -st switch\n";
     else
     {
         string filename(argv[argc-1]);

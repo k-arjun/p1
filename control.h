@@ -39,6 +39,10 @@ void nodeItem::display()
 	{
 		cout << value ;
 	}
+	else
+	{
+		cerr << " nodeItem::display unreachable code\n";
+	}
 }
 
 class cStr
@@ -49,6 +53,14 @@ class cStr
 	public:
 	void display();
 	void push(nodeItem item);
+	nodeItem getItem(int i)
+	{
+		return nlist[i];
+	}
+	int getCount()
+	{
+		return nlist.size();
+	}
 };
 
 void cStr::push(nodeItem item)
@@ -84,7 +96,13 @@ class csGen
 	//Public Functions
 	public:
 	void run(const string &filename); //will pass the root node of the standard tree to a CSGen object.
+	void getMap(map< string, cStr > &newMap );
 };
+
+void csGen::getMap(map< string, cStr > &newMap )
+{
+	newMap = cStrMap;
+}
 
 void csGen::displayMap()
 {
