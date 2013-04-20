@@ -22,6 +22,60 @@ bool isOp(const string &s)
     else return false;
 }
 
+bool isId(string s)
+{
+    if(isKeyword(s))
+        return false;
+        
+    if(isLetter(s[0]))
+    {
+        for(int i=1; i<s.size(); ++i)
+        {
+            if(isLetter(s[i]) || isDigit(s[i]) || s[i] == '_' )
+                continue;
+            return false;
+        }
+        return true;
+    }
+    else
+        return false;
+}
+
+bool isInt(string s)
+{
+    if(isKeyword(s))
+        return false;
+        
+    if(isDigit(s[0]))
+    {
+        for(int i=1; i<s.size(); ++i)
+        {
+            if(isDigit(s[i]))
+                continue;
+            return false;
+        }
+        return true;
+    }
+    else
+        return false;
+}
+
+bool isString(string s)
+{
+    if(isKeyword(s))
+        return false;
+        
+    if(s[0] == '\'')
+    {
+        if(s.size() > 1 && s[s.size()-1] == '\'')
+            return true;
+        
+        return false;
+    }
+    else
+        return false;
+}
+
 class stdTree
 {
     //Public Functions
@@ -52,7 +106,21 @@ void stdTree::preOrder(treeNode *node, int dots) //display the standard tree on 
         for(int i=0; i<dots; ++i)
         cout << ".";
     
-        cout << node->data << endl;
+        if(isId(node->data))
+		{   
+			cout << "<ID:"<<node->data<<">"<<endl;
+		}
+		else if(isInt(node->data))
+		{
+			cout << "<INT:"<<node->data<<">"<<endl;
+		}
+		else if(isString(node->data))
+		{
+			cout << "<STR:"<<node->data<<">"<<endl;
+		}
+		else
+			cout << node->data << endl;
+		
         preOrder(node->child, dots+1);
         preOrder(node->sibling, dots);
     }

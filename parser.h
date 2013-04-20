@@ -120,8 +120,22 @@ void parser::preOrder(treeNode *node, int dots)
     {
         for(int i=0; i<dots; ++i)
         cout << ".";
-    
-        cout << node->data << endl;
+        
+		if(isId(node->data))
+		{   
+			cout << "<ID:"<<node->data<<">"<<endl;
+		}
+		else if(isInt(node->data))
+		{
+			cout << "<INT:"<<node->data<<">"<<endl;
+		}
+		else if(isString(node->data))
+		{
+			cout << "<STR:"<<node->data<<">"<<endl;
+		}
+		else
+			cout << node->data << endl;
+		
         preOrder(node->child, dots+1);
         preOrder(node->sibling, dots);
     }
@@ -133,26 +147,8 @@ void parser::buildTree(string node, int pops)
     newNode->child = 0;
     newNode->sibling = 0;
     string tempName;
-    //~ if( tl.getCurTokenClass().compare("ID") == 0 || tl.getCurTokenClass().compare("INT") == 0 
-        //~ || tl.getCurTokenClass().compare("STR") == 0)
-    //~ {
-        //~ newNode->data = tempName.append("<").append( tl.getCurTokenClass() ).append(":").append(node).append(">");
-    //~ }
 
-    if(isId(node))
-    {   
-        newNode->data = tempName.append("<ID:").append(node).append(">");
-    }
-    else if(isInt(node))
-    {
-        newNode->data = tempName.append("<INT:").append(node).append(">");
-    }
-    else if(isString(node))
-    {
-        newNode->data = tempName.append("<STR:").append(node).append(">");
-    }
-    else
-        newNode->data = node;
+	newNode->data = node;
         
     if(pops == 0)
     {

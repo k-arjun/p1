@@ -4,14 +4,28 @@
 #include "control.h"
 class Control
 {
+	//Public Functions
+	public:
+	push();
+	pop();
 };
 
 class cseStack
 {
+	//Public Functions
+	public:
+	push();
+	pop();
 };
 
 class env
 {
+	//Private Data
+	private:
+	map<string, string>  elem;
+	
+	//Public Functions
+	public:
 };
 
 class CSE
