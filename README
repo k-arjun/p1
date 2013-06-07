@@ -1,6 +1,41 @@
-PLP project 2 references
+PLP project 1 references
 
-http://ufl.googlecode.com/svn-history/r318/rpal/CSE.java
-http://plp-project.googlecode.com/svn-history/r26/trunk/PLPProject/src/CSEMachine.java
-http://plp-project.googlecode.com/svn-history/r37/trunk/PLPProject/src/CSEMachine.java
-https://code.google.com/p/plp-project/source/browse/trunk/PLPProject/reference.txt
+The objective of this first project is to implement a lexical analyzer, and a recursive descent parser for the RPAL language.
+
+RPAL’s LEXICON:
+
+Identifier -> Letter (Letter | Digit | ’_’)*               => ’<IDENTIFIER>’;
+
+Integer -> Digit+                                          => ’<INTEGER>’;
+
+Operator -> Operator_symbol+                               => ’<OPERATOR>’;
+
+String -> ’’’’
+          ( ’\’ ’t’ | ’\’ ’n’ | ’\’ ’\’ | ’\’ ’’’’
+          | ’(’ | ’)’ | ’;’ | ’,’
+          |’’
+          | Letter | Digit | Operator_symbol
+          )* ’’’’                                          => ’<STRING>’;
+          
+Spaces -> ( ’ ’ | ht | Eol )+                              => ’<DELETE>’;
+
+Comment -> ’//’
+          ( ’’’’ | ’(’ | ’)’ | ’;’ | ’,’ | ’\’ | ’ ’
+          | ht | Letter | Digit | Operator_symbol
+          )* Eol                                           => ’<DELETE>’;
+          
+Punction -> ’(’                                            => ’(’
+         -> ’)’                                            => ’)’
+         -> ’;’                                            => ’;’
+         -> ’,’                                            => ’,’;
+
+Letter -> ’A’..’Z’ | ’a’..’z’;
+
+Digit -> ’0’..’9’;
+
+Operator_symbol
+            -> ’+’ | ’-’ | ’*’ | ’<’ | ’>’ | ’&’ | ’.’
+            | ’@’ | ’/’ | ’:’ | ’=’ | ’˜’ | ’|’ | ’$’
+            | ’!’ | ’#’ | ’%’ | ’ˆ’ | ’_’ | ’[’ | ’]’
+            | ’{’ | ’}’ | ’"’ | ’‘’ | ’?’;
+            
